@@ -9,5 +9,7 @@ The patterns are harsh, the settings usually get forgotten, the timing drifts, t
 
 This code is an attempt to improve on it. It's based around a PIC12F1612 (what was available at the time) and usings two timers/PWM units to control each alternate polarity. The last selected pattern is saved to the last page of flash memory. MCC is used to configure the chip. If the button is held for enough time the next pattern is selected. Each time it is pressed it will reset the On Timer start point.
 
+NOTE: Opening MCC seems to rip the second PWM pin off the device so you have to delete and re-add the PWM unit each time MCC is opened.
+
 ![image](https://user-images.githubusercontent.com/82589545/211387744-6552ef8b-61dc-40d8-bb79-bf9ab132297b.png)
 
