@@ -49,6 +49,9 @@
 // Cycles needed to debounce switch
 #define SW_DEBOUNCE 30u
 
+// Cycles needed to check solar dark signal
+#define DARK_DEBOUNCE 100u
+
 // Number of patterns 
 #define MAX_PATTERN 5u
 
@@ -82,8 +85,9 @@
 #define GREEN_OFF               0x70u
 
 // In 13.1072 second cycles (Timer 6 limitation))
-#define TIME_ON                 1648u // 21600 Seconds / 6 Hours
-#define TIME_OFF                4944u // 64800 Seconds / 18 Hours
+// Total 24 Hours = 6592
+#define TIME_ON                 1098u // 14400 Seconds / 4 Hours
+#define TIME_OFF                5494u // 72000 Seconds / 20 Hours
 
 // Control time of day via 10 second timer1
 volatile unsigned int timeofday = 0u;
@@ -92,6 +96,7 @@ void T6ISR(void);
 void main(void)
 {
     unsigned char switch_debounce;
+    unsigned char dark_debounce;
     unsigned short pattern;    
     unsigned int step;
     unsigned int stepsize;
@@ -150,7 +155,8 @@ void main(void)
     // prep some variables
     step = 0u;
     index = 0u;
-    switch_debounce = 0u;    
+    switch_debounce = 0u; 
+    dark_debounce = 0u;
     
     // Forever loop
     while (1)
@@ -195,6 +201,30 @@ void main(void)
             // Save this pattern choice
             FLASH_WriteWord(MEM_ADDR, rambuf, pattern);
             
+            // Reset time of day timer
+            timeofday = 0u;
+            
+            // Reset these
+            step = 0u;
+            index = 0u;
+        }
+        
+        // Check if it is dark for enough time to avoid glitches
+        if (IO_RA5_GetValue() == 1u)
+        {
+            if (dark_debounce <= DARK_DEBOUNCE)
+            {
+                dark_debounce++;
+            }
+        }
+        else
+        {
+            dark_debounce = 0u;
+        }
+        
+        // Syncronisze as it's got dark - happens one time
+        if (dark_debounce == DARK_DEBOUNCE)
+        {            
             // Reset time of day timer
             timeofday = 0u;
             

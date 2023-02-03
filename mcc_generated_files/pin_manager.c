@@ -62,7 +62,7 @@ void PIN_MANAGER_Initialize(void)
     /**
     TRISx registers
     */
-    TRISA = 0x10;
+    TRISA = 0x30;
 
     /**
     ANSELx registers
@@ -72,7 +72,7 @@ void PIN_MANAGER_Initialize(void)
     /**
     WPUx registers
     */
-    WPUA = 0x10;
+    WPUA = 0x30;
     OPTION_REGbits.nWPUEN = 0;
 
     /**
