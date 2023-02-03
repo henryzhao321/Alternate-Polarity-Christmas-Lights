@@ -11,5 +11,10 @@ This code is an attempt to improve on it. It's based around a PIC12F1612 (what w
 
 NOTE: Opening MCC seems to rip the second PWM pin off the device so you have to delete and re-add the PWM unit each time MCC is opened.
 
+![image](https://user-images.githubusercontent.com/82589545/216698749-400f5e09-5c1b-4294-b9da-9752747dae43.png)
+
+![image](https://user-images.githubusercontent.com/82589545/216698803-cfb32704-380a-432b-987b-2790091359b9.png)
+
+
 ![image](https://user-images.githubusercontent.com/82589545/211387744-6552ef8b-61dc-40d8-bb79-bf9ab132297b.png)
 
